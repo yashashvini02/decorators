@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🍕 Python Decorators = Pizza Toppings</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: #fffbe6;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .pizza-area {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      background: url('https://i.imgur.com/hgHRQeM.png') no-repeat center/cover;
+      border: 5px dashed #ff9800;
+      border-radius: 50%;
+    }
+
+    .topping {
+      position: absolute;
+      font-size: 30px;
+      animation: drop 0.5s ease-out forwards;
+    }
+
+    @keyframes drop {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .controls, .code {
+      margin-top: 20px;
+    }
+
+    button {
+      margin: 6px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e68900;
+    }
+
+    .code-box {
+      background: #272822;
+      color: #a6e22e;
+      padding: 10px;
+      font-family: 'Courier New', monospace;
+      text-align: left;
+      max-width: 350px;
+      margin: 0 auto;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+
+    #explanation {
+      font-size: 18px;
+      margin-top: 15px;
+      padding: 10px;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍕 Decorators in Python = Toppings on Pizza</h1>
+  <p>Click to add toppings (decorators) to your pizza (function)!</p>
+
+  <div class="container">
+    <div class="pizza-area" id="pizza"></div>
+
+    <div class="code">
+      <h3>Python Code</h3>
+      <div class="code-box" id="codeBox">
+def make_pizza():
+    print("Bake plain pizza")
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button onclick="addTopping('🧀', 'add_cheese')">Add Cheese</button>
+    <button onclick="addTopping('🍅', 'add_tomato')">Add Tomato</button>
+    <button onclick="addTopping('🫒', 'add_olives')">Add Olives</button>
+    <button onclick="bakePizza()">Bake Pizza 🍽️</button>
+  </div>
+
+  <div id="explanation">
+    This is a plain pizza (just a function). Add toppings (decorators) to change it!
+  </div>
+
+  <script>
+    const pizza = document.getElementById("pizza");
+    const codeBox = document.getElementById("codeBox");
+    const explanation = document.getElementById("explanation");
+
+    let decorators = [];
+
+    function addTopping(emoji, decoratorName) {
+      const top = document.createElement("div");
+      top.className = "topping";
+      top.textContent = emoji;
+      top.style.left = Math.random() * 260 + "px";
+      top.style.top = Math.random() * 260 + "px";
+      pizza.appendChild(top);
+
+      decorators.push(decoratorName);
+      updateCode();
+      explanation.textContent = `You added ${decoratorName.replace("add_", "")}. Now your function is wrapped with @${decoratorName}!`;
+    }
+
+    function updateCode() {
+      let code = "";
+      for (let i = decorators.length - 1; i >= 0; i--) {
+        code += "@" + decorators[i] + "\n";
+      }
+      code += "def make_pizza():\n    print(\"Bake plain pizza\")";
+      codeBox.textContent = code;
+    }
+
+    function bakePizza() {
+      if (decorators.length === 0) {
+        explanation.textContent = "No decorators! This is just a plain function running.";
+      } else {
+        explanation.textContent = `Your function is now fully decorated with: ${decorators.map(d => "@" + d).join(", ")}. When you call it, all decorators are used! 🎉`;
+      }
+    }
+  </script>
+
+</body>
+</html>
